@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>图片延迟加载</title>
+    <style type="text/css">
+        ul, li, div, img, h2, p {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: "微软雅黑";
+        }
+
+        #oUl {
+            list-style: none;
+            padding: 10px;
+        }
+
+        #oUl li {
+            position: relative;
+            height: 60px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        #oUl li img {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            border: none;
+            width: 75px;
+            height: 60px;
+
+        }
+
+        #oUl li div {
+            margin-left: 80px;
+        }
+
+        #oUl li div h2 {
+            height: 20px;
+            line-height: 20px;
+            /*如果超出一行，那么进行省略*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #oUl li div p {
+            height: 40px;
+            line-height: 20px;
+        }
+
+    </style>
+    <script type="text/javascript" src="../utils.js"></script>
+</head>
+<body>
+<ul id="oUl"></ul>
+<script type="text/javascript">
+	var oUl = document.getElementById("oUl");
+	var oImgs = document.getElementsByTagName("img");
+	//数据请求及绑定
+	utils.ajax({
+		url: "data.txt",
+		success: function (data) {
+			bindData(data);
+			delayImg(oImgs, "trueImg", fadeIn);
+		}
+	});
+
+	function bindData(data) {
+		var str = "";
+		for (var i = 0; i < data.length; i++) {
+			var cur = data[i];//
+			str += "<li>";
+			str += "<img src='img/default.jpg' trueImg =" + cur.logo + ">";
+			str += "<div>";
+			str += "<h2>" + cur.title + "</h2>";
+			str += "<p>" + cur.desc + "</p>";
+			str += "</div>";
+			str += "</li>"
+		}
+		oUl.innerHTML = str;
+	}
+
+	//单张或多张图片延迟加载函数
+	function delayImg(imgList, relImgAttr, callBack) {
+		var winH = document.documentElement.clientHeight || document.body.clientHeight;
+		if (!imgList.length) {
+			imgList = new Array(imgList);
+		}
+		function delay() {
+			var scrTop = utils.setScroll("scrollTop");
+			for (var i = 0; i < imgList.length; i++) {
+				if (!imgList[i].Load) {//判断是否已经加载过了
+
+					var curT = utils.offsetToBody(imgList[i]).top;
+					var curH=imgList[i].offsetHeight;
+					var trueAddress = imgList[i].getAttribute(relImgAttr);
+					if (winH + scrTop >= curT+curH) {
+						var oImg = document.createElement("img");
+						oImg.src = trueAddress;
+						oImg.index=i;
+						oImg.onload = function () {//确保图片地址正确
+							imgList[this.index].src = this.src;
+							imgList[this.index].Load = true;
+							typeof callBack ==="function"?callBack(imgList[this.index]):null
+						};
+						oImg = null;
+					}
+				}
+			}
+		}
+		utils.on(window,'scroll',delay);
+		delay();
+	}
+
+	//渐变的效果
+	function fadeIn(curEle) {
+		var opa = 0.3;
+		utils.css(curEle, "opacity", opa);
+		utils.animate(curEle,{opacity:1},500)
+	}
+
+
+</script>
+</body>
+</html>

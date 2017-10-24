@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组去重</title>
+</head>
+<body>
+<script type="text/javascript">
+	//数组去重：去掉数组中相同项
+    var ary=[12,66,12,8,66,8,99];
+
+    //方法1, 将不重复元素放入新的数组，原数组不变
+    function simple(ary) {
+	    var newary =[];
+	    for(var i=0;i<ary.length;i++){
+		    if(newary.indexOf(ary[i]) === -1){
+			    newary.push(ary[i]);
+		    }
+	    }
+	    return newary;
+    }
+
+	//方法2，利用对象特点将重复元素删除，哈希快速定位思想(不用多次遍历数组)，原数组改变
+    function better(ary) {
+	    var obj={};
+	    for(var i =0;i<ary.length;i++){
+		    var cur = ary[i];
+		    if(obj[cur] == cur){
+			    ary[i] = ary[ary.length-1];//性能优化，防止内存大规模迁移
+			    ary.length--;
+			    i--;
+		    }else{
+		    	obj[cur] = cur
+		    }
+	    }
+    }
+
+	console.log(simple(ary));
+    better(ary);
+	console.log(ary);
+</script>
+</body>
+</html>

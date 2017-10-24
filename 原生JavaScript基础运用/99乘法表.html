@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>99乘法表</title>
+    <style type="text/css">
+        *{
+            margin : 0;
+            padding : 0;
+        }
+        #tab{
+            width : 720px;
+            height: 360px;
+            margin : 80px auto;
+            border : 1px solid #c9c9c9;
+        }
+        #tab ul{
+            list-style: none;
+        }
+        #tab ul li{
+            /*height : 40px;*/
+            /*line-height: 40px;*/
+        }
+        #tab ul li span{
+            display: inline-block;
+            width : 80px;
+            text-align: center;
+            height : 40px;
+            line-height: 40px;
+        }
+        .bg1{
+            background: white;
+        }
+        .bg2{
+            background: #2b7dd1;
+        }
+        .bg3{
+            background: #59b07d;
+        }
+
+    </style>
+</head>
+<body>
+<div id="tab">
+    <ul>
+    </ul>
+</div>
+<script type="text/javascript">
+	var oDiv = document.getElementById("tab");
+	var oUl = oDiv.getElementsByTagName("ul")[0];
+	var str = "";
+	for(var i=1;i<10;i++){
+		var val = "";
+		//隔行变色
+		switch(i%3){
+			case 0:
+				val = "bg1";
+				break;
+			case 1:
+				val="bg2";
+				break;
+			default:
+				val = "bg3"
+		}
+		str +="<li class="+val+">";
+		for(var j=1;j <=i;j++){
+			str+="<span>";
+			str+=""+j+"*"+i+"="+(j*i)+"";
+			str+="</span>";
+		}
+		str+= "</li>";
+	}
+	oUl.innerHTML = str;
+</script>
+</body>
+</html>

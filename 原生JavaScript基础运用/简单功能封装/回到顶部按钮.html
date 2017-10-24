@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        div{
+            margin:0;
+            padding :0;
+        }
+        #goTop{
+            visibility: hidden;
+            width : 100px;
+            text-align: center;
+            color: white;
+            height:100px;
+            line-height: 100px;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            border: 1px solid gray;
+            background: gray;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript" src="utils.js"></script>
+</head>
+<body>
+<div style="height: 500px;background-color:deepskyblue"></div>
+<div style="height: 500px;background-color:yellow"></div>
+<div style="height: 500px;background-color:red"></div>
+<div style="height: 500px;background-color:yellowgreen"></div>
+<div style="height: 500px;background-color:black"></div>
+<div id="goTop">回到顶部</div>
+<script>
+	function goTop(curEle) {
+		utils.on(curEle,'click', function () {
+			var distance = utils.setScroll("scrollTop");
+			var duration = 500;
+			var interval = 10;
+			var step = distance/duration*interval;
+			var timer=setInterval(function () {
+				var curT = utils.setScroll("scrollTop");
+				if(curT == 0){
+					clearInterval(timer)
+				}
+				utils.setScroll("scrollTop",curT-step)
+			},interval)
+		});
+		utils.on(window,'scroll',function () {
+			var winH = document.documentElement.clientHeight || document.body.clientHeight;
+			var curT = utils.setScroll("scrollTop");
+			curEle.style.visibility= curT>winH ? "visible" : "hidden";//相比display，发生回流，visibility只发生重绘显然更好
+		})
+	}
+    var oGoTop=document.getElementById('goTop');
+    goTop(oGoTop);
+</script>
+</body>
+</html>

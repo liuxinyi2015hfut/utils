@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格排序</title>
+    <style>
+        table, thead, tbody, tfoot, th, tr, td {
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑";
+            font-size: 18px;
+        }
+
+        #tab {
+            width: 600px;
+            display: block;
+            margin: 80px auto;
+            border-radius: 5px;
+            box-shadow: 3px 3px 3px #eee;
+        }
+
+        #tab thead {
+            height: 50px;
+            background: blue;
+            color: white;
+        }
+
+        #tab thead tr th {
+            width: 150px;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+        }
+
+        #tab tbody tr td {
+            width: 150px;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        #tab tbody .even {
+            background: lightblue;
+        }
+
+        #tab .cursor {
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript" src="utils.js"></script>
+</head>
+<body>
+<table id="tab" cellspacing="0" cellpadding="0">
+    <thead>
+    <tr>
+        <th class="cursor">英雄</th>
+        <th class="cursor">年龄</th>
+        <th class="cursor">武力</th>
+        <th>性别</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<script>
+	//思路 ：
+	// 1）获取所有要操作的对象
+	// 2) 拉取数据
+	// 3) 绑定数据（字符串拼接/文档碎片）
+	// 5) 绑定点击事件，点击的时候执行排序方法
+	// 6) sortList 方法  （数字和汉字区分）
+
+	var oTab = document.getElementById("tab");
+	var tHead = oTab.tHead;
+	var oThs = tHead.rows[0].cells;
+	var tBody = oTab.tBodies[0];
+	var rows = tBody.rows;
+	var data = null;
+	//获取数据，这里省略
+	data = [
+		{"name": "武松", "age": 35, "hurt": 105, "sex": 1},
+		{"name": "李逵", "age": 32, "hurt": 125, "sex": 1},
+		{"name": "林冲", "age": 30, "hurt": 149, "sex": 1},
+		{"name": "鲁智深", "age": 31, "hurt": 120, "sex": 1},
+		{"name": "孙二娘", "age": 26, "hurt": 110, "sex": 0}
+	];
+
+	//绑定数据
+	function bindData() {
+		var frg = document.createDocumentFragment();
+		for (var i = 0; i < data.length; i++) {
+			var cur = data[i];
+			var oTr = document.createElement("tr");
+			for (var key in cur) {
+				var oTd = document.createElement("td");
+				if (key == "sex") {
+					if (cur[key] == 1) {
+						oTd.innerHTML = "男";
+					} else {
+						oTd.innerHTML = "女";
+					}
+				} else {
+					oTd.innerHTML = cur[key];
+				}
+				oTr.appendChild(oTd);
+			}
+			frg.appendChild(oTr)
+		}
+		tBody.appendChild(frg);
+		frg = null;
+	}
+	bindData();
+
+	//隔行变色
+	function changeBg() {
+		for (var i = 0; i < rows.length; i++) {
+			i % 2 == 0 ? rows[i].className = "even" : rows[i].className = null;
+		}
+	}
+
+	changeBg();
+
+	// 通过点击列的索引进行排序
+	function sortList(index) {
+		var _this = this;
+		for (var j = 0; j < oThs.length; j++) {
+			j !== index ? oThs[j].flag = -1 : null;
+		}
+		;
+		_this.flag *= -1;
+		var ary = utils.toArray(rows);
+		ary.sort(function (a, b) {
+			var aContent = a.cells[index].innerHTML;
+			var bContent = b.cells[index].innerHTML;
+			if (index !== 0) {
+				var cur = parseFloat(aContent);
+				var nexCur = parseFloat(bContent);
+				return (cur - nexCur) * _this.flag;
+			} else {
+				return (aContent.localeCompare(bContent)) * _this.flag;
+			}
+		});
+		for (var i = 0; i < ary.length; i++) {
+			tBody.appendChild(ary[i])
+		}
+		changeBg();
+	}
+
+	// 绑定点击排序事件
+	for (var i = 0; i < oThs.length; i++) {
+		oThs[i].index = i;
+		oThs[i].flag = -1;
+		if (oThs[i].className == "cursor") {
+			oThs[i].onclick = function () {
+				sortList.call(this, this.index);
+			}
+		}
+	}
+</script>
+</body>
+</html>

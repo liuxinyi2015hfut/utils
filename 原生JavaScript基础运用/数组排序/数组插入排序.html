@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组插入排序</title>
+</head>
+<body>
+<script type="text/javascript">
+	//插入排序思想 ： 每次摸一张，每拿一张的时候，看手里的牌，从右到左一次比较，发现比手里的某一张牌小，放到它的左边
+	var ary =[9,1,3,8,6,2];
+	function insertSort(ary) {
+		var newAry =[];
+		newAry.push(ary.splice(0,1)[0]);
+		for(var i=0;i<ary.length;i++){
+			var cur = ary[i];
+			for(var j=0;j<newAry.length;){
+				if(cur>newAry[j]){
+					j++;
+					if(j===newAry.length){
+						newAry.push(cur);
+					}
+				}else{
+					newAry.splice(j,0,cur);
+					j=newAry.length;
+				}
+			}
+		}
+		return newAry
+	}
+	console.log(insertSort(ary));
+</script>
+</body>
+</html>

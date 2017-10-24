@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组冒泡排序</title>
+</head>
+<body>
+<script type="text/javascript">
+	//冒泡思想 ： 数组中从左开始，两两进行比较，如果前面一项大于后面的一项，那么交换位置，如果前面一项小于后面一项，则位置不变
+	var ary=[6,3,7,18,2,11];
+	function bubbleSort(ary) {
+		for(var i=0;i<ary.length-1;i++){
+			var flag = true;
+			for(var j=0;j<ary.length-i-1;j++){
+				var temp = null;
+				if(ary[j]>ary[j+1]){
+					temp = ary[j];
+					ary[j] = ary[j+1];
+					ary[j+1] =temp;
+					flag = false;
+				}
+			}
+			if(flag){
+				break;
+			}
+		}
+	}
+	bubbleSort(ary);
+	console.log(ary);
+</script>
+</body>
+</html>

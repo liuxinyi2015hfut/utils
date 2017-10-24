@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+    <style type="text/css">
+        div,ul,li{
+            margin : 0;
+            padding : 0;
+            font-family: 微软雅黑;
+        }
+        #box{
+            width : 500px;
+            height : 400px;
+            margin: 80px auto;
+        }
+        #box ul{
+            list-style: none;
+        }
+        #box ul li{
+            height : 30px;
+            line-height : 30px;
+            width : 80px;
+            text-align: center;
+            float : left;
+            cursor: pointer;
+            border: 1px solid #c9c9c9;
+            border-bottom: none;
+        }
+        #box ul li.select{
+            background: #2b7dd1;
+            border-color: #2b7dd1;
+        }
+        #box div{
+            display: none;
+            clear: both;
+            width : 100%;
+            height : 370px;
+            text-align: center;
+            line-height: 370px;
+        }
+        #box div.select{
+            display: block;
+            background: #2b7dd1;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <ul>
+        <li class="select">电视剧</li>
+        <li>电影</li>
+        <li>卡通</li>
+    </ul>
+    <div class="select">电视剧</div>
+    <div>电影</div>
+    <div>卡通</div>
+</div>
+<script type="text/javascript">
+	var oBox = document.getElementById("box");
+	var oLis = oBox.getElementsByTagName("li");
+	var oDivs = oBox.getElementsByTagName("div");
+	function change(n){
+		for(var i=0;i<oLis.length;i++){
+			oLis[i].className = "";
+			oDivs[i].className = "";
+		}
+		oLis[n].className="select";
+		oDivs[n].className = "select";
+	}
+	for(var i=0;i<oLis.length;i++){
+		oLis[i].ind = i;
+		oLis[i].onclick = function () {
+			change(this.ind);
+		}
+	}
+</script>
+</body>
+</html>
