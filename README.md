@@ -1,3 +1,3 @@
 # utils
 原生JavaScript兼容处理及一些常见功能的简单封装
-> `兼容及常用功能整理/常用效果方法`中js文件的方法使用效果及使用方法见`原生JavaScript基础运用/简单功能封装`中html文件
+[常用效果方法,简单功能封装效果](https://liuxinyi2015hfut.github.io/practices/)
