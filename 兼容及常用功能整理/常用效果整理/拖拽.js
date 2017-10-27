@@ -1,30 +1,5 @@
 //需要引入utils.js
-/*div, h2,h3{
-	margin: 0;
-	padding: 0;
-}
-#box {
-	position: absolute;
-	width: 300px;
-	height: 300px;
-	background: #ffaa2a;
-	top: 0;
-	left: 0;
-}
 
-#box h2 {
-	font-size: 14px;
-	background: #008CD7;
-	padding: 0 10px;
-	color: #ffffff;
-	height: 30px;
-	line-height: 30px;
-	cursor: move;
-	-webkit-user-select: none;
-}*/
-/*<div id="box">
-	<h2 class="aaa">按住鼠标拖动</h2>
-</div>*/
 
 // curEle 移动元素
 // bindClassName 点击元素（必须是curEle是后代元素，通过类名获取元素时索引为0）类名
