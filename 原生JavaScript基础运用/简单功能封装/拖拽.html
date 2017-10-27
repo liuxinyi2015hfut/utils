@@ -8,7 +8,12 @@
             margin: 0;
             padding: 0;
         }
-
+        #box3{
+            width:800px;
+            height: 600px;
+            background-color: #ffffff;
+            border: 15px solid #000000;
+        }
         #box {
             position: absolute;
             width: 200px;
@@ -57,15 +62,20 @@
     <script type="text/javascript" src="utils.js"></script>
 </head>
 <body>
-<div id="box">
-    <h2 class="aaa">按住鼠标拖动</h2>
-    <div id="box2">
-        <h3 class="bbb">按住鼠标拖动</h3>
+<div id="box3">
+    <div id="box">
+        <h2 class="aaa">按住鼠标拖动</h2>
+        <p>移动范围：窗口</p>
+        <div id="box2">
+            <h3 class="bbb">在此处按住鼠标拖动</h3>
+            <p>移动范围：父元素</p>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
 	var oBox = document.getElementById("box");
-	drag(oBox);
+	var oBox3 = document.getElementById("box3");
+	drag(oBox,oBox3);
 	var oBox2 = document.getElementById("box2");
 	drag(oBox2, "bbb");
 
