@@ -1,50 +1,4 @@
-//需要引入utils.js
 (function () {
-// curEle 移动元素
-// bindClassName 点击元素（必须是curEle是后代元素，通过类名获取元素时索引为0）类名
-// context 移动范围元素（与curEle不需要有任何关系，可以不传，默认为窗口）
-	window.drag = function (curEle, bindClassName, context, callback) {
-		var bindEle = null;
-		if (arguments.length === 1) {
-			bindEle = curEle;
-		} else if (arguments.length > 1) {
-			switch (typeof arguments[1]) {
-				case "string":
-					bindEle = utils.getByClass(bindClassName, curEle)[0];
-					if (arguments.length === 3 && typeof arguments[2] === "function") {
-						callback = arguments[2];
-						context = null;
-					}
-					break;
-				case "object" :
-					if (arguments.length === 3 && typeof arguments[2] === "function") {
-						callback = arguments[2];
-					}
-					context = arguments[1];
-					bindEle = curEle;
-					break;
-				case "function" :
-					callback = arguments[1];
-					context = null;
-					bindEle = curEle;
-					break;
-				default :
-					break;
-			}
-		}
-		bindEle.myDrag = {};
-		bindEle.myDrag.target = curEle;
-		bindEle.myDrag.context = context ? context : null;
-		bindEle.myDrag.move = function (e) {
-			dragMouseMove.call(bindEle, e);
-		};
-		bindEle.myDrag.up = function (e) {
-			dragMouseUp.call(bindEle, e);
-		};
-		utils.on(bindEle, "mousedown", dragMouseDown);
-		callback ? callback.call(bindEle) : null;
-	};
-
 	function dragData(bindEle) {
 		var obj = bindEle.myDrag;
 		var context = {};
@@ -124,4 +78,46 @@
 		}
 		utils.run.call(this, "selfDragMouseUp", e);
 	}
+
+	window.drag = function (curEle, bindClassName, context, callback) {
+		var bindEle = null;
+		if (arguments.length === 1) {
+			bindEle = curEle;
+		} else if (arguments.length > 1) {
+			switch (typeof arguments[1]) {
+				case "string":
+					bindEle = utils.getByClass(bindClassName, curEle)[0];
+					if (arguments.length === 3 && typeof arguments[2] === "function") {
+						callback = arguments[2];
+						context = null;
+					}
+					break;
+				case "object" :
+					if (arguments.length === 3 && typeof arguments[2] === "function") {
+						callback = arguments[2];
+					}
+					context = arguments[1];
+					bindEle = curEle;
+					break;
+				case "function" :
+					callback = arguments[1];
+					context = null;
+					bindEle = curEle;
+					break;
+				default :
+					break;
+			}
+		}
+		bindEle.myDrag = {};
+		bindEle.myDrag.target = curEle;
+		bindEle.myDrag.context = context ? context : null;
+		bindEle.myDrag.move = function (e) {
+			dragMouseMove.call(bindEle, e);
+		};
+		bindEle.myDrag.up = function (e) {
+			dragMouseUp.call(bindEle, e);
+		};
+		utils.on(bindEle, "mousedown", dragMouseDown);
+		callback ? callback.call(bindEle) : null;
+	};
 })();

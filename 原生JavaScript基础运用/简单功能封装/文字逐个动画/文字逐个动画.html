@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #second{
+            padding-top: 400px;
+        }
+        img{
+            width: 50px;
+            height: 50px;
+        }
+        @keyframes bounceInDown {
+            from, 60%, 75%, 90%, to {
+                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+
+            0% {
+                opacity: 0;
+                transform: translate3d(0, -3000px, 0);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translate3d(0, 25px, 0);
+            }
+
+            75% {
+                transform: translate3d(0, -10px, 0);
+            }
+
+            90% {
+                transform: translate3d(0, 5px, 0);
+            }
+
+            to {
+                transform: none;
+            }
+        }
+        .bounceInDown {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+            animation-name: bounceInDown;
+        }
+    </style>
+    <script type="text/javascript" src="../utils.js"></script>
+</head>
+<body>
+<div id="second">从远古时代起，五个肉眼可见的经典行星就已经被人们熟知，他们对神学、宗教宇宙学和古代天文学都有重要的影响。在古代，天文学家记录了一些特定的光点是相对于其他星星如何移动跨越天空。古希腊人把这些光点叫做“πλάνητες ἀστέρες”（即planetes asteres，游星）或简单的称为“πλανήτοι”（planētoi，漫游者），今天的英文名称行星（planet）<img src="../轮播图/images/1.jpg" alt="">
+    就是由此演化出来的。在古代希腊、中国、巴比伦和实际上所有前现代文明中，是人们几乎普遍的相信，地球是宇宙的中心，并且所有的“行星”都围绕着地球旋转。会有这种认识的原因是，人们每天都看到星星围绕着地球旋转，而且看起来好像是常识的认为，地球是坚实且稳定的，应该是静止的而不是会移动的。</div>
+<script type="text/javascript">
+	var oDiv2 = document.getElementById("second");
+	function oneByOne(curEle,animationType,perDelay,delay,duration) {
+		var aryNodes = curEle.childNodes;
+		var myStr="";
+		var strClass=animationType;
+		!perDelay?perDelay=0:null;
+        !delay?delay=0:null;
+		var strSpan=("<span class='"+strClass+"' "+"style='display:inline-block;");
+		if(duration){
+			duration="-webkit-animation-duration:"+duration+"s;animation-duration:"+duration+"s;";
+			strSpan+=duration+"-webkit-animation-delay:"
+        }else{
+			strSpan+="-webkit-animation-delay:"
+        }
+		var index=0;
+		var reg=/\s+style\s*=\s*('|")/;
+		var regElse=/>/;
+		for (var i = 0; i < aryNodes.length; i++) {
+			var oNode=aryNodes[i];
+			var num=null;
+			switch (oNode.nodeType) {
+				case 1:
+					num=delay+perDelay*index;
+					utils.addClass(oNode,strClass);
+					var eleStyle="-webkit-animation-delay:"+num+"s;animation-delay:"+num+"s;";
+					if(duration){
+						eleStyle+=duration
+					}
+					var eleStr=oNode.outerHTML;
+					var eleReg=reg.exec(eleStr);
+					if(eleReg){
+						myStr+=eleStr.replace(reg," style="+eleReg[1]+eleStyle)
+                    }else{
+						myStr+=eleStr.replace(regElse," style='"+eleStyle+"'>")
+                    }
+					console.log(eleStr);
+					index++;
+					continue;
+				case 3:
+					var ary=oNode.nodeValue.split("");
+					ary.forEach(function (item,ind) {
+						num=delay+perDelay*index;
+						myStr+=(strSpan+num+"s;animation-delay:"+num+"s;'>");
+						myStr+=item;
+						myStr+="</span>";
+                        index++;
+                    });
+					continue;
+                default:
+                	continue;
+			}
+		}
+		curEle.innerHTML=myStr;
+	}
+
+	oneByOne(oDiv2,"bounceInDown",0.05)
+
+</script>
+</body>
+</html>
